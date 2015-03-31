@@ -26,26 +26,34 @@ CLIENT_KEY_EXCHANGE = 16
 FINISHED = 20
 CERTIFICATE_STATUS = 22
 
+ip = 'suning.com'
+port = 443
+
+
+Ns = {}
+
 class ServerHandler(SocketServer.BaseRequestHandler):
 
     #clientcipher = ['\x00', '\x35']
     clientcipher = ['\x00', '\x04']
+    Nlist = []
+
 
     def calpre(self, encpre):
-        n1 = 0xcbdaf418c0065668e545e475b1122639782d0307d3ecb450b860618e1a344b37e2e2d0aa5900e7bc2d6cfb327cfbb45e443e95eea64a6281fb4ad992c5a58e4b
-        d1 = 0x47af7942f2d3c7b31f5cd297e86a9f727a2629f8a8b78639147d20111e79e130e7230ab5c4239b5620bb9c410e7a59764829b9b2fcd5f928d2eb1eb8021b2991
-
-        n2 = 0xe590cae5263ecdfe4f0c08fd66e2876e087e208adc4712517692905fa9b6c216c872a02d5ce032db3a521d5621c452a112ebfc7d7b5567c735a3e86f640682a3
-        d2 = 0xca8a8b58cdfb8f87967a89dbf9505828ceb96940dac4a1f6d9e4ca187d06500a5a1aa2373670b8dd74659a22e4aba8d827315fb142e8ab9c739adb21fc639a21
-
-        c = int(self.postprocess(encpre).encode('hex'), 16)
-        n = int(self.postprocess(self.modulus).encode('hex'), 16)
-        if n == n1:
-            d = d1
-        elif n == n2:
-            d = d2
+        n = self.postprocess(self.modulus).encode('hex')
+        print 'Ns: ', Ns
+        if n in Ns.keys():
+            d = Ns[n]
+            print "N hit!"
         else:
+            print 'N: %s'%(self.postprocess(self.modulus).encode('hex'))
+            if self.postprocess(self.modulus).encode('hex') not in self.Nlist:
+                self.Nlist.append(self.postprocess(self.modulus).encode('hex'))
+            print self.Nlist
             raise ValueError('Invalid N')
+        c = int(self.postprocess(encpre).encode('hex'), 16)
+        d = int(d, 16)
+        n = int(n, 16)
         m = pow(c, d, n)
         dec = hex(m)[2:].strip('L').rjust(128, '0').decode('hex')
         assert(dec[0:2] == '\x00\x02')
@@ -75,7 +83,7 @@ class ServerHandler(SocketServer.BaseRequestHandler):
 
         csock = self.request
         ssock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        ip, port = self.get_original_addr(csock)
+        #ip, port = self.get_original_addr(csock)
         ssock.connect((ip, port))
         print "Connecting (%s, %s)"%(ip, port)
 
@@ -321,6 +329,16 @@ class ServerHandler(SocketServer.BaseRequestHandler):
 class ThreadedServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     pass
 
+
+def getPossibleN():
+    f = open('keys.list', 'r')
+    for i in f.readlines():
+        if i.find('#') == -1:
+            l = i.strip().split(', ')
+            Ns[l[0]] = l[1]
+    print 'Ns caled!!!'
+
 if __name__ == "__main__":
     ThreadedServer.allow_reuse_address = True
+    getPossibleN()
     ThreadedServer(('', PORT), ServerHandler).serve_forever()

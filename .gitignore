@@ -1,3 +1,5 @@
+*.pyc
+*/*.pyc
 extraStuff/fastgcd/*
 .DS_Store
 */.DS_Store
@@ -5,4 +7,5 @@ extraStuff/fastgcd/*
 */*.txt
 extraStuff/getKeys/*
 !extraStuff/getKeys/getPossibleModulus.py
+!extraStuff/getKeys/sclient.sh
 

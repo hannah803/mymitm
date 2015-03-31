@@ -24,6 +24,7 @@ def trim():
 
 def run():
 	for i in range(100):
+        print i
 		p = subprocess.Popen('sh sclient.sh '+host, stderr=subprocess.PIPE, shell=True)
 		time.sleep(5)
 
