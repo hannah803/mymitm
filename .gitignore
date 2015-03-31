@@ -1,0 +1,8 @@
+extraStuff/fastgcd/*
+.DS_Store
+*/.DS_Store
+*.txt
+*/*.txt
+extraStuff/getKeys/*
+!extraStuff/getKeys/getPossibleModulus.py
+
