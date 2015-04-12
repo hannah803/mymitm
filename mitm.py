@@ -26,7 +26,10 @@ CLIENT_KEY_EXCHANGE = 16
 FINISHED = 20
 CERTIFICATE_STATUS = 22
 
-ip = 'suning.com'
+#ip = 'passport.suning.com'
+ip = '119.188.139.98'
+ip = '182.118.77.102'
+ip = '42.202.151.37'
 port = 443
 
 
@@ -44,7 +47,7 @@ class ServerHandler(SocketServer.BaseRequestHandler):
         print 'Ns: ', Ns
         if n in Ns.keys():
             d = Ns[n]
-            print "N hit!"
+            print "N hit!", n
         else:
             print 'N: %s'%(self.postprocess(self.modulus).encode('hex'))
             if self.postprocess(self.modulus).encode('hex') not in self.Nlist:
