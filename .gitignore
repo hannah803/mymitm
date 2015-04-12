@@ -8,4 +8,5 @@ extraStuff/fastgcd/*
 extraStuff/getKeys/*
 !extraStuff/getKeys/getPossibleModulus.py
 !extraStuff/getKeys/sclient.sh
-
+*.swp
+*.ip
