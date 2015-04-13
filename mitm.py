@@ -86,7 +86,7 @@ class ServerHandler(SocketServer.BaseRequestHandler):
 
         csock = self.request
         ssock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #ip, port = self.get_original_addr(csock)
+        ip, port = self.get_original_addr(csock)
         ssock.connect((ip, port))
         print "Connecting (%s, %s)"%(ip, port)
 

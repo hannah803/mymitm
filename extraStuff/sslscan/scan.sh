@@ -2,9 +2,10 @@
 for i in `cat $1` 
 do
 echo $i 
-if `ping -c1 $i|grep -q '1 received'`;then
+nc -z `echo www.`$i 443 -w 3
+if [ $? = 0 ];then
 echo "sslscaning"
-sslscan $i | grep 'Accepted'|grep 'EXP' > sslscan_res/$i&
+sslscan `echo www.`$i | grep 'Accepted' > res/$i&
 else
 echo "skipping"
 fi

@@ -12,10 +12,10 @@ def trim():
         if (l.find('ServerKeyExchange') == -1):
             s += l
         else:
-            print 'SeverKeyExchange'
-            print s
+            #print 'SeverKeyExchange'
+            #print s
             res = ''.join(s.split())
-            print len(res)
+            #print len(res)
             result.append(res.decode('hex')[6:6+64].encode('hex'))
             s = '' 
     f.close()
@@ -24,19 +24,25 @@ def trim():
 
 def run():
     for i in range(1000):
-        print i
+        if i%10==0:
+            print i
         p = subprocess.Popen('sh sclient.sh '+host, stderr=subprocess.PIPE, shell=True)
         time.sleep(5)
 
-def test():
-    global host
-    if len(sys.argv) == 2:
-        host = sys.argv[1]
-    #run()
-    res = trim()[1:]
-    f = open(host+'_res.txt', 'w')
-    f.write('\r\n'.join(res))
-    print res, len(res)
-
 if __name__=='__main__':
-    test()
+    global host
+    if len(sys.argv) >= 2:
+        host = sys.argv[1]
+    if sys.argv[2] == '-run':
+        run()
+        res = trim()[1:]
+        f = open(host+'_res.txt', 'w')
+        f.write('\r\n'.join(res))
+        print res, len(res)
+    elif sys.argv[2] == '-trim':
+        res = trim()[1:]
+        f = open(host+'_res.txt', 'w')
+        f.write('\r\n'.join(res))
+        print res, len(res)
+    else:
+        print 'parameter wrong!'
