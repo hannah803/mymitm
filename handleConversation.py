@@ -111,7 +111,7 @@ class Handle():
         finished = ''.join(lfinished)
 
         prefix = "1400000c".decode('hex')
-        return list(prefix + finished)
+        return prefix + finished
 
 
     def calmac(self, data, label):

@@ -5,9 +5,13 @@ extraStuff/fastgcd/*
 */.DS_Store
 *.txt
 */*.txt
-extraStuff/getKeys/*
 !extraStuff/getKeys/*.py
 !extraStuff/getKeys/*.sh
+extraStuff/getKeys/*
+!extraStuff/getKeys/getIP
+!extraStuff/getKeys/getIP/*.py
+!extraStuff/getKeys/getIP/*.sh
+extraStuff/getKeys/getIP/
 *.swp
 *.ip
 extraStuff/myscraper/domain
