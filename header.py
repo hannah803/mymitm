@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #encoding: utf-8
-import select
+import select, socket
 import struct
 PORT = 8888
 SO_ORIGINAL_DST = 80

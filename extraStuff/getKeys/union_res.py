@@ -6,10 +6,14 @@ def main(argv):
     for i in os.listdir(path):
         tmp = i.split('_')
         if len(tmp) == 2:
-            if tmp[1] == sys.argv[2] and tmp[0].rsplit('.', 1)[0] == sys.argv[1]:
+            if sys.argv[1] == 'all':
+                if tmp[1] == sys.argv[2]:
+                    f = open(i, 'r') 
+                    fs.append(f)
+            elif tmp[1] == sys.argv[2] and tmp[0].rsplit('.', 1)[0] == sys.argv[1]:
                 f = open(i, 'r') 
                 fs.append(f)
-
+    print fs
     for f in fs:
         unique = {}.fromkeys([i.strip() for i in f.readlines()]).keys()
         if len(sys.argv) > 3:
